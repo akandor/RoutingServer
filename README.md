@@ -51,6 +51,47 @@ Open [http://localhost:3111](http://localhost:3111) in your browser.
 
 > **Important:** Change the default passwords after first login.
 
+## Docker Compose Example
+
+If you want to deploy without cloning the repo, create a `docker-compose.yaml` file:
+
+```yaml
+services:
+  app:
+    image: ghcr.io/akandor/routingserver:latest
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "3111:3000"
+      - "3443:3443"
+    volumes:
+      - ./data:/app/data
+      - ./uploads:/app/uploads
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15
+    container_name: routing_server_postgres_db
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  pgdata:
+```
+
+Then create a `.env` file alongside it (see [Environment Variables](#environment-variables) below) and run `docker compose up -d`.
+
 ## Environment Variables
 
 | Variable            | Description                  | Default            |
