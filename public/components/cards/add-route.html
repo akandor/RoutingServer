@@ -1,0 +1,24 @@
+<section id="add-card" class="card" style="display:none;">
+  <div class="section-title"><h3 style="margin:0;">Add Route</h3></div>
+  <form id="add-form" class="toolbar">
+    <input id="add-dstUri" placeholder="Prefix" required class="w-260" />
+    <input id="add-dstIPGname" placeholder="IP Group" required class="w-140" />
+    <span id="add-days-group" class="toolbar">
+      <label class="muted">Days:</label>
+      <label><input type="checkbox" class="add-day" value="mon"> Mon</label>
+      <label><input type="checkbox" class="add-day" value="tue"> Tue</label>
+      <label><input type="checkbox" class="add-day" value="wed"> Wed</label>
+      <label><input type="checkbox" class="add-day" value="thu"> Thu</label>
+      <label><input type="checkbox" class="add-day" value="fri"> Fri</label>
+      <label><input type="checkbox" class="add-day" value="sat"> Sat</label>
+      <label><input type="checkbox" class="add-day" value="sun"> Sun</label>
+    </span>
+    <span class="time-field"><input id="add-startTime" type="time" step="60" class="w-140" /></span>
+    <span class="time-field"><input id="add-endTime" type="time" step="60" class="w-140" /></span>
+    <button type="submit" class="icon-btn btn-green" title="Add" aria-label="Add">
+      <i class="fa-solid fa-plus"></i>
+    </button>
+  </form>
+</section>
+
+

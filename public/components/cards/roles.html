@@ -1,0 +1,108 @@
+<section id="roles-card" class="card" style="display:none;">
+  <div class="section-title">
+    <h3 style="margin:0;" data-i18n="roles.title">Roles</h3>
+    <button id="show-add-role" class="icon-btn btn-green" data-i18n-title="roles.addRole" data-i18n-aria="roles.addRole" title="Add new role" aria-label="Add new role">
+      <i class="fa-solid fa-plus"></i>
+    </button>
+  </div>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th data-i18n="roles.id">ID</th>
+          <th data-i18n="roles.roleName">Role Name</th>
+          <th data-i18n="roles.administrator">Administrator</th>
+          <th data-i18n="roles.routesPermissions">Routes Permissions</th>
+          <th data-i18n="roles.actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="roles-body"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Add Role Lightbox -->
+<div id="add-role-lightbox" class="lightbox-overlay z-2400" style="display:none;">
+  <form id="add-role-form" class="lightbox-panel">
+    <h3 style="margin:0 0 16px 0;" data-i18n="roles.addRoleTitle">Add Role</h3>
+    
+    <label data-i18n="roles.roleName">Role Name</label>
+    <input id="add-role-name" data-i18n-placeholder="roles.roleNamePlaceholder" placeholder="Enter role name" required style="width:100%;" />
+    
+    <label style="margin-top: 16px;" data-i18n="roles.administratorAccess">Administrator Access</label>
+    <div style="margin: 8px 0;">
+      <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+        <input type="checkbox" id="add-role-admin" style="margin: 0;">
+        <span data-i18n="roles.grantAdminPrivileges">Grant administrator privileges</span>
+      </label>
+    </div>
+    
+    <label style="margin-top: 16px;" data-i18n="roles.routesPermissions">Routes Permissions</label>
+    <div id="add-role-permissions" style="margin: 8px 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
+      <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+        <input type="checkbox" class="route-permission" value="view" style="margin: 0;">
+        <span data-i18n="roles.viewRoutes">View Routes</span>
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+        <input type="checkbox" class="route-permission" value="add" style="margin: 0;">
+        <span data-i18n="roles.addRoutes">Add Routes</span>
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+        <input type="checkbox" class="route-permission" value="edit" style="margin: 0;">
+        <span data-i18n="roles.editRoutes">Edit Routes</span>
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+        <input type="checkbox" class="route-permission" value="delete" style="margin: 0;">
+        <span data-i18n="roles.deleteRoutes">Delete Routes</span>
+      </label>
+    </div>
+    
+    <div style="display:flex; gap:12px; justify-content:flex-end; margin-top: 24px;">
+      <button type="button" id="cancel-add-role" class="icon-btn btn-secondary"><i class="fa-solid fa-xmark"></i></button>
+      <button type="submit" class="icon-btn btn-green"><i class="fa-solid fa-check"></i></button>
+    </div>
+  </form>
+</div>
+
+<!-- Edit Role Lightbox -->
+<div id="edit-role-lightbox" class="lightbox-overlay z-2400" style="display:none;">
+  <form id="edit-role-form" class="lightbox-panel">
+    <h3 style="margin:0 0 16px 0;" data-i18n="roles.editRoleTitle">Edit Role</h3>
+    
+    <label data-i18n="roles.roleName">Role Name</label>
+    <input id="edit-role-name" data-i18n-placeholder="roles.roleNamePlaceholder" placeholder="Enter role name" required style="width:100%;" />
+    
+    <label style="margin-top: 16px;" data-i18n="roles.administratorAccess">Administrator Access</label>
+    <div style="margin: 8px 0;">
+      <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+        <input type="checkbox" id="edit-role-admin" style="margin: 0;">
+        <span data-i18n="roles.grantAdminPrivileges">Grant administrator privileges</span>
+      </label>
+    </div>
+    
+    <label style="margin-top: 16px;" data-i18n="roles.routesPermissions">Routes Permissions</label>
+    <div id="edit-role-permissions" style="margin: 8px 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
+      <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+        <input type="checkbox" class="edit-route-permission" value="view" style="margin: 0;">
+        <span data-i18n="roles.viewRoutes">View Routes</span>
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+        <input type="checkbox" class="edit-route-permission" value="add" style="margin: 0;">
+        <span data-i18n="roles.addRoutes">Add Routes</span>
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+        <input type="checkbox" class="edit-route-permission" value="edit" style="margin: 0;">
+        <span data-i18n="roles.editRoutes">Edit Routes</span>
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+        <input type="checkbox" class="edit-route-permission" value="delete" style="margin: 0;">
+        <span data-i18n="roles.deleteRoutes">Delete Routes</span>
+      </label>
+    </div>
+    
+    <div style="display:flex; gap:12px; justify-content:flex-end; margin-top: 24px;">
+      <button type="button" id="cancel-edit-role" class="icon-btn btn-secondary"><i class="fa-solid fa-xmark"></i></button>
+      <button type="submit" class="icon-btn btn-green"><i class="fa-solid fa-check"></i></button>
+    </div>
+  </form>
+</div>

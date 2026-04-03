@@ -1,0 +1,88 @@
+<section id="profile-card" class="card" style="display:none; padding:24px; margin:auto;">
+  <div class="section-title">
+    <h3 style="margin:0;" data-i18n="profile.title">Profile</h3>
+  </div>
+  <div>
+    <table style="width:100%;" class="mt-16 table-scroll">
+    <thead>
+      <tr>
+        <th data-i18n="profile.profileImage">Profile Image</th>
+        <th></th>
+        <th data-i18n="common.actions">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <img id="pf-avatar" src="/avatar-placeholder.svg" alt="avatar" class="profile-avatar" />
+        </td>
+        <td></td>
+        <td>
+          <form id="avatar-form" class="mt-8">
+            <input id="pf-file" type="file" accept="image/*" style="display: none;" />
+          </form>
+          <button id="pf-image-upload" class="icon-btn" data-i18n-title="profile.uploadProfileImage" data-i18n-aria="profile.uploadProfileImage" title="Upload profile image" aria-label="Upload profile image"><i class="fa-solid fa-upload"></i></button>
+        </td>
+      </tr>
+    </tbody>
+    <thead>
+      <tr>
+        <th data-i18n="profile.personalInformation">Personal Information</th>
+        <th></th>
+        <th data-i18n="common.actions">Actions</th>
+      </tr>
+    </thead>
+    <form id="personal-info-form" class="toolbar flex1">
+    <tbody>
+      <tr>
+        <td><input id="pf-first" type="text" data-i18n-placeholder="profile.firstName" placeholder="first name" /></td>
+        <td><input id="pf-last" type="text" data-i18n-placeholder="profile.lastName" placeholder="last name" /></td>
+        <td>
+          <button id="pf-personal-save" class="icon-btn" data-i18n-title="profile.savePersonalInfo" data-i18n-aria="profile.savePersonalInfo" title="Save personal info" aria-label="Save personal info"><i class="fa-solid fa-floppy-disk"></i></button>
+        </td>
+      </tr>
+    </tbody>
+    </form>
+    <thead>
+      <tr>
+        <th data-i18n="profile.securityInformation">Security Information</th>
+        <th data-i18n="profile.twoFA">2FA</th>
+        <th data-i18n="common.actions">Actions</th>
+      </tr>
+    </thead>
+    <form id="security-form" class="toolbar flex1">
+    <tbody>
+      <tr>
+        <td>
+          <input id="pf-password" type="password" data-i18n-placeholder="profile.newPassword" placeholder="new password" />
+          <input id="pf-password-confirm" type="password" data-i18n-placeholder="profile.confirmPassword" placeholder="confirm password" />
+        </td>
+        <td id="otp-section">
+          <label class="toggle-switch">
+            <input type="checkbox" id="otp-toggle" />
+            <span class="toggle-slider"></span>
+          </label>
+          <span id="otp-status" class="ml-8" data-i18n="profile.disabled">Disabled</span>
+        </td>
+        <td>
+          <button id="pf-security-save" class="icon-btn" data-i18n-title="profile.saveSecuritySettings" data-i18n-aria="profile.saveSecuritySettings" title="Save security settings" aria-label="Save security settings"><i class="fa-solid fa-floppy-disk"></i></button>
+        </td>
+      </tr>
+    </tbody>
+    </form>
+  </table>
+</div>
+
+  <div id="otp-lightbox" class="lightbox-overlay z-2200" style="display:none;">
+    <form id="otp-form" class="lightbox-panel">
+      <h3 style="margin:0 0 8px 0;" data-i18n="profile.enable2FA">Enable 2FA</h3>
+      <p data-i18n="profile.scanQRCode">Scan this QR code with your authenticator app and enter the 6-digit code:</p>
+      <img id="otp-qrcode" src="" alt="OTP QR Code" />
+      <input id="otp-code" data-i18n-placeholder="profile.enterCode" placeholder="Enter code" required class="w-200" />
+      <div style="display:flex; gap:12px; justify-content:flex-end;">
+        <button type="button" id="cancel-otp" class="icon-btn btn-secondary"><i class="fa-solid fa-xmark"></i></button>
+        <button type="submit" class="icon-btn btn-green"><i class="fa-solid fa-check"></i></button>
+      </div>
+    </form>
+  </div>
+</section>

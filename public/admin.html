@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title data-i18n="app.title">Admin Panel - Routing Server</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="/fa/css/all.min.css" />
+    <link rel="stylesheet" href="/assets/style.css" />
+  </head>
+  <body>
+    <div class="container app">
+      <aside id="sidebar" class="sidebar" style="display:none;">
+        <div data-include="/components/navbar.html"></div>
+      </aside>
+
+      <main>
+      <div data-include="/components/header.html"></div>
+
+      <div data-include="/components/cards/auth.html"></div>
+
+    <div data-include="/components/cards/add-route.html"></div>
+
+    <div data-include="/components/cards/routes.html"></div>
+
+    <div data-include="/components/cards/users.html"></div>
+
+    <div data-include="/components/cards/tokens.html"></div>
+
+    <div data-include="/components/cards/roles.html"></div>
+
+    <div data-include="/components/cards/web-settings.html"></div>
+
+    <div data-include="/components/cards/profile.html"></div>
+
+    <div data-include="/components/cards/help.html"></div>
+
+      </main>
+    </div>
+    <div data-include="/components/footer.html"></div>
+
+    <div id="add-user-lightbox" class="lightbox-overlay z-1000" style="display:none;">
+      <form id="add-user-form" class="lightbox-panel">
+        <h3 style="margin:0 0 8px 0;" data-i18n="users.addUserTitle">Add User</h3>
+        <div style="position: relative;">
+        <i class="fa-solid fa-user" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+        <input id="add-user-username" data-i18n-placeholder="auth.username" placeholder="Username" required style="width:100%; padding-left: 40px;" autocomplete="off" />
+        </div>
+        <div style="position: relative;">
+          <i class="fa-solid fa-lock" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+        <input id="add-user-password" type="password" data-i18n-placeholder="auth.password" placeholder="Password" required style="width:100%; padding-left: 40px;" autocomplete="new-password" />
+      </div>
+      <div style="position: relative;">
+          <i class="fa-solid fa-lock" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+        <input id="add-user-password-confirm" type="password" data-i18n-placeholder="auth.confirmPassword" placeholder="Confirm Password" required style="width:100%; padding-left: 40px;" autocomplete="new-password" />
+      </div>
+      <label for="login-username" style="display: block; margin-bottom: 2px; font-weight: 500;" data-i18n="users.role">Role</label>
+        <select id="add-user-role" required style="width:100%;">
+          <option value="user" data-i18n="users.roles.user">User</option>
+          <option value="admin" data-i18n="users.roles.admin">Admin</option>
+        </select>
+        <div style="display:flex; gap:12px; justify-content:flex-end;">
+          <button type="button" id="cancel-add-user" class="icon-btn btn-secondary"><i class="fa-solid fa-xmark"></i></button>
+          <button type="submit" class="icon-btn btn-green"><i class="fa-solid fa-check"></i></button>
+        </div>
+      </form>
+    </div>
+
+    <div id="confirm-lightbox" class="lightbox-overlay z-2000" style="display:none;">
+      <div class="lightbox-panel lightbox-panel--center">
+        <div id="confirm-message" style="font-size:1.1em; text-align:center;"></div>
+        <div style="display:flex; gap:16px; justify-content:center;">
+          <button id="confirm-cancel" class="icon-btn btn-secondary"><i class="fa-solid fa-xmark"></i></button>
+          <button id="confirm-ok" class="icon-btn btn-green"><i class="fa-solid fa-check"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <div id="reset-password-lightbox" class="lightbox-overlay z-2100" style="display:none;">
+      <form id="reset-password-form" class="lightbox-panel">
+        <h3 style="margin:0 0 8px 0;" data-i18n="users.resetPasswordTitle">Reset Password</h3>
+        <input id="reset-password" type="password" data-i18n-placeholder="auth.newPassword" placeholder="New Password" required style="width:100%;" autocomplete="new-password" />
+        <input id="reset-password-confirm" type="password" data-i18n-placeholder="auth.confirmPassword" placeholder="Confirm Password" required style="width:100%;" autocomplete="new-password" />
+        <div style="display:flex; gap:12px; justify-content:flex-end;">
+          <button type="button" id="cancel-reset-password" class="icon-btn btn-secondary"><i class="fa-solid fa-xmark"></i></button>
+          <button type="submit" class="icon-btn btn-green"><i class="fa-solid fa-check"></i></button>
+        </div>
+      </form>
+    </div>
+
+    <div id="add-token-lightbox" class="lightbox-overlay z-2200" style="display:none;">
+      <form id="add-token-form" class="lightbox-panel">
+        <h3 style="margin:0 0 8px 0;" data-i18n="tokens.addTokenTitle">Add new token user</h3>
+        <input id="add-token-username" data-i18n-placeholder="auth.username" placeholder="Username" required class="w-200" />
+        <div style="display:flex; gap:12px; justify-content:flex-end;">
+          <button type="button" id="cancel-add-token" class="icon-btn btn-secondary"><i class="fa-solid fa-xmark"></i></button>
+          <button type="submit" class="icon-btn btn-green"><i class="fa-solid fa-check"></i></button>
+        </div>
+      </form>
+    </div>
+
+    <div id="add-routes-lightbox" class="lightbox-overlay z-2300" style="display:none;">
+      <form id="add-routes-form" class="lightbox-panel">
+        <h3 style="margin:0 0 8px 0;" data-i18n="routes.addRouteTitle">Add Route</h3>
+        <label data-i18n="routes.prefix">Prefix</label>
+        <input id="add-routes-dstUri" data-i18n-placeholder="routes.prefix" placeholder="Prefix" required class="w-260" />
+        <label data-i18n="routes.destinationIPGroup">Destination IP Group Name</label>
+        <input id="add-routes-dstIPGname" data-i18n-placeholder="routes.ipGroup" placeholder="IP Group" required class="w-140" />
+        <label data-i18n="routes.days">Days:</label>
+        <div id="add-days-group">
+          <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+            <label><input type="checkbox" class="add-routes-day" value="mon"><span data-i18n="routes.weekdays.mon">Mon</span></label>
+            <label><input type="checkbox" class="add-routes-day" value="tue"><span data-i18n="routes.weekdays.tue">Tue</span></label>
+            <label><input type="checkbox" class="add-routes-day" value="wed"><span data-i18n="routes.weekdays.wed">Wed</span></label>
+            <label><input type="checkbox" class="add-routes-day" value="thu"><span data-i18n="routes.weekdays.thu">Thu</span></label>
+            <label><input type="checkbox" class="add-routes-day" value="fri"><span data-i18n="routes.weekdays.fri">Fri</span></label>
+            <label><input type="checkbox" class="add-routes-day" value="sat"><span data-i18n="routes.weekdays.sat">Sat</span></label>
+            <label><input type="checkbox" class="add-routes-day" value="sun"><span data-i18n="routes.weekdays.sun">Sun</span></label>
+          </div>
+        </div>
+        <label data-i18n="routes.startTime">Start Time (HH:MM)</label>
+        <span class="time-field"><input id="add-routes-startTime" type="time" step="60" class="w-140" /></span>
+        <label data-i18n="routes.endTime">End Time (HH:MM)</label>
+        <span class="time-field"><input id="add-routes-endTime" type="time" step="60" class="w-140" /></span>
+        <div style="display:flex; gap:12px; justify-content:flex-end;">
+          <button type="button" id="cancel-add-routes" class="icon-btn btn-secondary"><i class="fa-solid fa-xmark"></i></button>
+          <button type="submit" class="icon-btn btn-green"><i class="fa-solid fa-check"></i></button>
+        </div>
+      </form>
+    </div>
+
+    <div id="message-lightbox" class="lightbox-overlay z-2400" style="display:none;">
+      <div class="lightbox-panel lightbox-panel--center">
+        <div id="message-icon" style="text-align:center; font-size:2em;"></div>
+        <div id="message-text" style="font-size:1.1em; text-align:center;"></div>
+        <div style="display:flex; justify-content:center;">
+          <button id="message-ok" class="icon-btn btn-secondary"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <script src="/assets/translations/i18n.js" type="module"></script>
+    <script src="/assets/admin.js" type="module"></script>
+    <script src="/assets/marked.min.js"></script>
+  </body>
+  </html>
+
+

@@ -1,0 +1,66 @@
+<section id="routes-card" class="card" style="display:none;">
+  <div class="section-title">
+    <h3 style="margin:0;" data-i18n="routes.title">Routes</h3>
+    <button id="show-add-routes" class="icon-btn btn-green" data-i18n-title="routes.addRoute" data-i18n-aria="routes.addRoute" title="Add Routes" aria-label="Add Routes">
+      <i class="fa-solid fa-plus"></i>
+    </button>
+    
+  </div>
+  <div class="toolbar mb-8">
+    <input id="search" data-i18n-placeholder="routes.searchPlaceholder" placeholder="Search by prefix or ip group" class="flex1 p-8" />
+    <select id="pageSize">
+      <option value="5">5</option>
+      <option value="10" selected>10</option>
+      <option value="25">25</option>
+      <option value="50">50</option>
+    </select>
+    <button id="refresh" class="icon-btn btn-icon-secondary" data-i18n-title="routes.refresh" data-i18n-aria="routes.refresh" title="Refresh" aria-label="Refresh">
+      <i class="fa-solid fa-rotate"></i>
+    </button>
+    <button id="exportCsv" type="button" class="icon-btn btn-icon-secondary" data-i18n-title="routes.exportCSV" data-i18n-aria="routes.exportCSV" title="Export CSV" aria-label="Export CSV">
+      <i class="fa-solid fa-file-arrow-down"></i>
+    </button>
+    <label>
+      <input id="importCsv" type="file" accept=".csv,text/csv" style="display:none;">
+      <span class="icon-btn btn-icon-secondary" data-i18n-title="routes.importCSV" data-i18n-aria="routes.importCSV" title="Import CSV" aria-label="Import CSV" role="button">
+        <i class="fa-solid fa-file-arrow-up" style="font-size: 16px; cursor: pointer;"></i>
+      </span>
+    </label>
+  </div>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th data-i18n="routes.id">ID</th>
+          <th data-i18n="routes.prefix">Prefix</th>
+          <th data-i18n="routes.ipGroup">IP Group</th>
+          <th data-i18n="routes.days">Days</th>
+          <th data-i18n="routes.startTime">Start Time (HH:MM)</th>
+          <th data-i18n="routes.endTime">End Time (HH:MM)</th>
+          <th data-i18n="routes.actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="routes-body"></tbody>
+    </table>
+  </div>
+  <div class="pagination-row">
+    <div id="summary" class="muted" style="margin-top: 11px;"></div>
+    <div style="display:flex; gap:8px;">
+      <button id="first" class="icon-btn btn-icon-secondary" data-i18n-title="pagination.firstPage" data-i18n-aria="pagination.firstPage" title="First Page" aria-label="First Page">
+        <i class="fa-solid fa-angles-left"></i>
+      </button>
+      <button id="prev" class="icon-btn btn-icon-secondary" data-i18n-title="pagination.previousPage" data-i18n-aria="pagination.previousPage" title="Previous Page" aria-label="Previous Page">
+        <i class="fa-solid fa-angle-left"></i>
+      </button>
+      <span id="pageInfo" class="muted" style="margin-top: 11px;"></span>
+      <button id="next" class="icon-btn btn-icon-secondary" data-i18n-title="pagination.nextPage" data-i18n-aria="pagination.nextPage" title="Next Page" aria-label="Next Page">
+        <i class="fa-solid fa-angle-right"></i>
+      </button>
+      <button id="last" class="icon-btn btn-icon-secondary" data-i18n-title="pagination.lastPage" data-i18n-aria="pagination.lastPage" title="Last Page" aria-label="Last Page">
+        <i class="fa-solid fa-angles-right"></i>
+      </button>
+    </div>
+  </div>
+</section>
+
+

@@ -1,0 +1,9 @@
+node_modules
+npm-debug.log
+.dockerignore
+.git
+.gitignore
+routing-server.tar
+_docker-compose.yml
+notes.txt
+.env

@@ -1,0 +1,230 @@
+<div id="web-settings-card" class="card" style="display:none;">
+  <div class="section-title">
+    <h3><span data-i18n="webSettings.title">Web Settings</span></h3>
+  </div>
+  
+  <form id="web-settings-form">
+    <table style="width:100%;" class="mt-16 table-scroll">
+    <thead>
+      <tr>
+        <th data-i18n="webSettings.serverAccess.title">Server Access</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <div class="form-group">
+            <select id="server-access-mode" name="accessMode" required style="padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text); outline: none;">
+              <option value="http_https" data-i18n="webSettings.serverAccess.httpAndHttps">HTTP and HTTPS</option>
+              <option value="https_only" data-i18n="webSettings.serverAccess.httpsOnly">HTTPS Only</option>
+              <option value="https_redirect" data-i18n="webSettings.serverAccess.httpsRedirect">HTTPS Redirect</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <small class="form-help" data-i18n="webSettings.serverAccess.help">Configure how the server handles HTTP and HTTPS connections.</small>
+          </div>
+        </div>
+        </td>
+      </tr>
+    </tbody>
+    <thead>
+      <tr>
+        <th data-i18n="webSettings.certificate.title">SSL Certificate</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <div class="form-group">
+            <label for="private-key-file" data-i18n="webSettings.certificate.privateKey">Private Key File:</label>
+            <input type="file" id="private-key-file" name="privateKeyFile" accept=".key,.pem" style="padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text); outline: none;" />
+            <small class="form-help" data-i18n="webSettings.certificate.privateKeyHelp">Upload your SSL private key file (.key or .pem format)</small>
+          </div>
+    
+          <div class="form-group">
+            <label for="private-key-passphrase" data-i18n="webSettings.certificate.passphrase">Private Key Passphrase (Optional):</label>
+            <input type="password" id="private-key-passphrase" name="privateKeyPassphrase" placeholder="" autocomplete="new-password" style="padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text); outline: none;" />
+            <small class="form-help" data-i18n="webSettings.certificate.passphraseHelp">Enter the passphrase if your private key is encrypted</small>
+          </div>
+    
+          <div class="form-group">
+            <label for="certificate-file" data-i18n="webSettings.certificate.certificate">Certificate File:</label>
+            <input type="file" id="certificate-file" name="certificateFile" accept=".crt,.pem,.cer" style="padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text); outline: none;"/>
+            <small class="form-help" data-i18n="webSettings.certificate.certificateHelp">Upload your SSL certificate file (.crt, .pem, or .cer format)</small>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+    <thead>
+      <tr>
+        <th data-i18n="webSettings.certificate.currentStatus">Current Certificate Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <div id="certificate-status" class="certificate-status" style="display:none;">
+            <h4 data-i18n="webSettings.certificate.currentStatus">Current Certificate Status</h4>
+            <div class="status-item">
+              <span data-i18n="webSettings.certificate.issuer">Issuer:</span>
+              <span id="cert-issuer">-</span>
+            </div>
+            <div class="status-item">
+              <span data-i18n="webSettings.certificate.subject">Subject:</span>
+              <span id="cert-subject">-</span>
+            </div>
+            <div class="status-item">
+              <span data-i18n="webSettings.certificate.validFrom">Valid From:</span>
+              <span id="cert-valid-from">-</span>
+            </div>
+            <div class="status-item">
+              <span data-i18n="webSettings.certificate.validTo">Valid To:</span>
+              <span id="cert-valid-to">-</span>
+            </div>
+            <div class="status-item">
+              <span data-i18n="webSettings.certificate.status">Status:</span>
+              <span id="cert-status-text" class="status-badge">-</span>
+            </div>
+          </div>
+        </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+    <!-- Action Buttons -->
+    <div class="form-actions">
+      <button type="button" id="load-web-settings" class="icon-btn btn-secondary">
+        <i class="fa-solid fa-refresh"></i>
+      </button>
+      <button type="submit" class="icon-btn">
+        <i class="fa-solid fa-save"></i>
+      </button>
+    </div>
+  </form>
+
+  <!-- Settings Status Messages -->
+  <div id="web-settings-message" class="message" style="display:none;"></div>
+</div>
+
+<style>
+.form-section {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.form-section:last-of-type {
+  border-bottom: none;
+}
+
+.form-section h3 {
+  margin: 0 0 1rem 0;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.form-group input[type="file"],
+.form-group input[type="password"],
+.form-group select {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.form-help {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.certificate-status {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+}
+
+.certificate-status h4 {
+  margin: 0 0 0.75rem 0;
+  color: var(--text-primary);
+}
+
+.status-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  padding: 0.25rem 0;
+}
+
+.status-item:last-child {
+  margin-bottom: 0;
+}
+
+.status-badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.status-badge.valid {
+  background: var(--success-bg);
+  color: var(--success-text);
+}
+
+.status-badge.expired {
+  background: var(--error-bg);
+  color: var(--error-text);
+}
+
+.status-badge.warning {
+  background: var(--warning-bg);
+  color: var(--warning-text);
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.message {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+.message.success {
+  background: var(--success-bg);
+  color: var(--success-text);
+  border: 1px solid var(--success-border);
+}
+
+.message.error {
+  background: var(--error-bg);
+  color: var(--error-text);
+  border: 1px solid var(--error-border);
+}
+</style>

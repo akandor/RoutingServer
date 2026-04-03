@@ -1,0 +1,14 @@
+node_modules/
+npm-debug.log
+routing-server.tar
+notes.txt
+.env
+pgdata/
+data/
+uploads/
+.DS_Store
+.claude/
+cookies.txt
+test-certificate.pem
+test-private-key.pem
+test-i18n.html

@@ -1,0 +1,22 @@
+<section id="users-card" class="card" style="display:none;">
+  <div class="section-title" style="display:flex; align-items:center; justify-content:space-between;">
+    <h3 style="margin:0;" data-i18n="users.title">Users</h3>
+    <button id="show-add-user" class="icon-btn btn-green" data-i18n-title="users.addUser" data-i18n-aria="users.addUser" title="Add User" aria-label="Add User">
+      <i class="fa-solid fa-user-plus"></i>
+    </button>
+  </div>
+  <table style="width:100%;" class="mt-16 table-scroll">
+    <thead>
+      <tr>
+        <th data-i18n="users.id">ID</th>
+        <th data-i18n="users.username">Username</th>
+        <th data-i18n="users.role">Role</th>
+        <th data-i18n="users.twoFA">2FA</th>
+        <th data-i18n="users.actions">Actions</th>
+      </tr>
+    </thead>
+    <tbody id="users-body"></tbody>
+  </table>
+</section>
+
+

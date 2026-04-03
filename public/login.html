@@ -1,0 +1,291 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login - Routing Server</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="/fa/css/all.min.css" />
+    <link rel="stylesheet" href="/assets/style.css" />
+    <script src="/assets/translations/i18n.js" type="module"></script>
+  </head>
+  <body class="login-body">
+    <div class="login-theme">
+      <div class="language-switcher">
+        <i class="fa-solid fa-globe"></i>
+        <select id="languageSelect" class="language-select">
+          <option value="en">EN</option>
+          <option value="de">DE</option>
+        </select>
+      </div>
+      <i id="themeIcon" class="fa-solid fa-sun"></i>
+      <div id="themeSwitch" class="theme-switch"><i></i></div>
+    </div>
+    <section class="login-card">
+      <div style="text-align: center; margin-bottom: 32px;">
+        <div style="display: flex; justify-content: center; margin-bottom: 16px;">
+          <i class="fa-solid fa-diagram-project" style="font-size: 48px; color: var(--primary);"></i>
+        </div>
+        <h1 style="margin: 0; font-size: 24px; font-weight: 600;" data-i18n="app.name">Routing Server</h1>
+        <p data-i18n="auth.signin">Login to your account</p>
+      </div>
+      
+      <form id="login-form" style="display: flex; flex-direction: column; gap: 20px;">
+        <div>
+          <label for="login-username" style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--text);" data-i18n="auth.username">Username</label>
+          <div style="position: relative;">
+            <i class="fa-solid fa-user" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted);"></i>
+            <input id="login-username" data-i18n-placeholder="auth.usernamePlaceholder" placeholder="Enter your username" required style="width: 100%; padding: 12px 12px 12px 40px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-size: 14px;" />
+          </div>
+        </div>
+        
+        <div>
+          <label for="login-password" style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--text);" data-i18n="auth.password">Password</label>
+          <div style="position: relative;">
+            <i class="fa-solid fa-lock" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted);"></i>
+            <input id="login-password" type="password" data-i18n-placeholder="auth.passwordPlaceholder" placeholder="Enter your password" required style="width: 100%; padding: 12px 12px 12px 40px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-size: 14px;" />
+          </div>
+        </div>
+        
+        <input id="login-otp" placeholder="OTP" style="display:none;" />
+        
+        <button type="submit" class="login-button" data-i18n="auth.login">Login</button>
+      </form>
+    </section>
+    
+    <!-- 2FA Setup Lightbox -->
+    <div id="otp-setup-lightbox" class="lightbox-overlay z-2200" style="display:none;">
+      <form id="otp-setup-form" class="lightbox-panel">
+        <h3 style="margin:0 0 8px 0;">Setup 2FA</h3>
+        <p>Two-factor authentication is required for your account. Scan this QR code with your authenticator app and enter the 6-digit code:</p>
+        <img id="otp-setup-qrcode" src="" alt="OTP QR Code" />
+        <input id="otp-setup-code" placeholder="Enter code" required class="w-200" />
+        <div style="display:flex; gap:12px; justify-content:flex-end;">
+          <button type="button" id="cancel-otp-setup" class="icon-btn btn-secondary"><i class="fa-solid fa-xmark"></i></button>
+          <button type="submit" class="icon-btn btn-green"><i class="fa-solid fa-check"></i></button>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      function updateThemeIcon() {
+        const themeIcon = document.getElementById('themeIcon');
+        if (document.documentElement.classList.contains('light')) {
+          themeIcon.classList.remove('fa-sun');
+          themeIcon.classList.add('fa-moon');
+        } else {
+          themeIcon.classList.remove('fa-moon');
+          themeIcon.classList.add('fa-sun');
+        }
+      }
+
+      (function initTheme(){
+        const saved = localStorage.getItem('theme') || 'dark';
+        document.documentElement.classList.toggle('light', saved === 'light');
+        updateThemeIcon();
+      })();
+      document.getElementById('themeSwitch').addEventListener('click', () => {
+        const isLight = document.documentElement.classList.toggle('light');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        updateThemeIcon();
+      });
+
+      // Wait for i18n to be fully initialized
+      document.addEventListener('DOMContentLoaded', async () => {
+        console.log('DOM loaded, waiting for i18n initialization...');
+        
+        // Wait for i18n to be ready
+        const waitForI18n = () => {
+          return new Promise((resolve, reject) => {
+            let attempts = 0;
+            const maxAttempts = 100; // 5 seconds max
+            
+            const checkI18n = () => {
+              attempts++;
+              console.log(`i18n check attempt ${attempts}:`, {
+                'window.i18n exists': !!window.i18n,
+                'translations loaded': window.i18n && Object.keys(window.i18n.translations || {}).length,
+                'current language': window.i18n && window.i18n.currentLanguage
+              });
+              
+              if (window.i18n && window.i18n.translations && Object.keys(window.i18n.translations).length > 0) {
+                console.log('i18n available:', true);
+                resolve();
+              } else if (attempts >= maxAttempts) {
+                console.error('i18n initialization timeout after', maxAttempts, 'attempts');
+                reject(new Error('i18n initialization timeout'));
+              } else {
+                setTimeout(checkI18n, 50);
+              }
+            };
+            checkI18n();
+          });
+        };
+        
+        try {
+          await waitForI18n();
+        } catch (error) {
+          console.warn('i18n initialization failed, attempting manual initialization:', error);
+          // Fallback: manually initialize i18n
+          if (window.i18n) {
+            const preferredLang = localStorage.getItem('preferred-language') || 'en';
+            await window.i18n.init(preferredLang);
+            console.log('Manual i18n initialization completed');
+          }
+        }
+        
+        // Initialize language switcher
+        const languageSelect = document.getElementById('languageSelect');
+        if (languageSelect) {
+          console.log('Initializing language switcher...');
+          
+          // Set initial language
+          const savedLanguage = localStorage.getItem('preferred-language') || 'en';
+          console.log('Setting initial language to:', savedLanguage);
+          languageSelect.value = savedLanguage;
+          
+          // Test translation
+          console.log('Testing translation for "auth.signin":', window.i18n.t('auth.signin'));
+          
+          // Add change listener
+          languageSelect.addEventListener('change', async (e) => {
+            const selectedLanguage = e.target.value;
+            console.log('Language changed to:', selectedLanguage);
+            await window.i18n.setLanguage(selectedLanguage);
+            window.i18n.translateDOM();
+            console.log('Current language:', window.i18n.getCurrentLanguage());
+          });
+          
+          console.log('Language switcher initialized successfully');
+        }
+      });
+
+      document.getElementById('login-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('login-username').value.trim();
+        const password = document.getElementById('login-password').value.trim();
+        const otpInput = document.getElementById('login-otp');
+        const otpVisible = otpInput.style.display !== 'none';
+        const otp = otpVisible ? otpInput.value.trim() : undefined;
+        try {
+          const body = { username, password };
+          if (otpVisible) {
+            body.otp = otp;
+          }
+          const r = await fetch('/api/auth/login', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+          const data = await r.json();
+          
+          // Handle forced 2FA setup
+          if (data.otp_setup_required === true) {
+            await showOtpSetup(username, password);
+            return;
+          }
+          
+          if (data.otp === true) {
+            otpInput.style.display = 'block';
+            otpInput.focus();
+            return;
+          }
+          if (!r.ok) {
+            alert('Invalid credentials');
+            return;
+          }
+          window.location.href = '/admin.html';
+        } catch (_) { alert('Login failed'); }
+      });
+
+      // 2FA Setup functionality
+      async function showOtpSetup(username, password) {
+        try {
+          // Get QR code
+          const setupResponse = await fetch('/api/auth/otp/setup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+          });
+          
+          if (!setupResponse.ok) {
+            alert('Failed to setup 2FA');
+            return;
+          }
+          
+          const { qr } = await setupResponse.json();
+          document.getElementById('otp-setup-qrcode').src = qr;
+          document.getElementById('otp-setup-lightbox').style.display = 'flex';
+          document.getElementById('otp-setup-code').focus();
+          
+        } catch (err) {
+          alert('Failed to setup 2FA: ' + (err.message || err));
+        }
+      }
+
+      // Handle 2FA setup form submission
+      document.getElementById('otp-setup-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('login-username').value.trim();
+        const password = document.getElementById('login-password').value.trim();
+        const code = document.getElementById('otp-setup-code').value.trim();
+        
+        if (!code) return;
+        
+        try {
+          const verifyResponse = await fetch('/api/auth/otp/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password, code })
+          });
+          
+          if (!verifyResponse.ok) {
+            const errorData = await verifyResponse.json();
+            alert(errorData.error || 'Invalid code');
+            return;
+          }
+          
+          // Success - redirect to admin
+          window.location.href = '/admin.html';
+          
+        } catch (err) {
+          alert('Failed to verify 2FA code: ' + (err.message || err));
+        }
+      });
+
+      // Cancel button handler
+      document.getElementById('cancel-otp-setup').addEventListener('click', async () => {
+        const username = document.getElementById('login-username').value.trim();
+        const password = document.getElementById('login-password').value.trim();
+        try {
+          await fetch('/api/auth/otp/cancel', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+          });
+        } catch (err) {
+          console.error('Failed to cleanup OTP setup:', err);
+        }
+        document.getElementById('otp-setup-lightbox').style.display = 'none';
+      });
+
+      // Close lightbox when clicking outside
+      document.getElementById('otp-setup-lightbox').addEventListener('click', async (e) => {
+        if (e.target === document.getElementById('otp-setup-lightbox')) {
+          // Call cleanup API
+          const username = document.getElementById('login-username').value.trim();
+          const password = document.getElementById('login-password').value.trim();
+          try {
+            await fetch('/api/auth/otp/cancel', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ username, password })
+            });
+          } catch (err) {
+            console.error('Failed to cleanup OTP setup:', err);
+          }
+          document.getElementById('otp-setup-lightbox').style.display = 'none';
+        }
+      });
+    </script>
+  </body>
+  </html>

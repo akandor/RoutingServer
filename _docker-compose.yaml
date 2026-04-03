@@ -1,0 +1,27 @@
+services:
+  app:
+    image: akandor/audiocodes-routing-server:latest
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "3111:3000"
+      - "3443:3443"
+    volumes:
+      - ./data:/app/data
+      - ./uploads:/app/uploads
+    depends_on:
+      - postgres
+  postgres:
+      image: postgres:15
+      container_name: routing_server_postgres_db
+      restart: always
+      env_file:
+        - .env
+      volumes:
+        - ./pgdata:/var/lib/postgresql/data
+      ports:
+        - "5432:5432"
+
+volumes:
+  pgdata:
